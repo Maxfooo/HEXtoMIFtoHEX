@@ -4,7 +4,7 @@ HEX to MIF is complete, I will work on MIF to HEX soon.
 * Python 3.4
 * Intel style hex file
 * .mif file for Quartus II for Altera FPGA's
-# Primary Files:
+## Primary Files:
 * main.py
 * HEXClass.py
 * HexUI.py
