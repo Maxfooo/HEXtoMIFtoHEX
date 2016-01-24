@@ -16,6 +16,7 @@ class HEXClass(object):
     def __init__(self, hexFile, mifFile):
         self.hexFile = hexFile
         self.mifFile = mifFile
+        self.base = 16
         self.hexContent = None
         self.hexLen = []
         self.hexAddr = []
@@ -26,20 +27,24 @@ class HEXClass(object):
         self.hexFileSettings()
         self.readHEXFile()
 
-    def hexFileSettings(self, base=16, depth=16, width=8, address_radix='HEX', data_radix='HEX'):
-        self.base = base
+    def hexFileSettings(self, depth=16, width=8, address_radix='HEX', data_radix='HEX'):
         self.depth = depth
         self.width = width
         self.address_radix = address_radix
         self.data_radix = data_radix
-        self.data_digits = base / width
+        self.data_digits = self.base / width
 
     def convertHEXtoMIF(self):
         self.sortHEXContents()
         self.writeMIFFile()
 
     def readHEXFile(self):
-        self.hexContent = self.hexFile.read()
+        try:
+            if isinstance(self.hexFile, str):
+                self.hexContent = self.hexFile
+            self.hexContent = self.hexFile.read()
+        except:
+            pass
 
     def sortHEXContents(self):
         hex_format_expression = r':(\w{2})(\w{4})(\w{2})(\w*)(\w{2})'
