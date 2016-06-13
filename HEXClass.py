@@ -27,12 +27,13 @@ class HEXClass(object):
         self.hexFileSettings()
         self.readHEXFile()
 
-    def hexFileSettings(self, depth=16, width=8, address_radix='HEX', data_radix='HEX'):
+    def hexFileSettings(self, depth=16, width=8, address_radix='HEX', data_radix='HEX', fillZeros=0):
         self.depth = depth
         self.width = width
         self.address_radix = address_radix
         self.data_radix = data_radix
         self.data_digits = self.base / width
+        self.fullZeros = fillZeros
 
     def convertHEXtoMIF(self):
         self.sortHEXContents()
@@ -73,6 +74,13 @@ class HEXClass(object):
             for k in range(len(tempAddress)):
                 self.mifFile.write(str(hex(tempAddress[k])).replace('0x','') +
                                    '\t:\t' + str(self.hexData[i][k]) + ';\n')
+                
+        # Fill in the rest of the addresses with 00
+        if len(self.hexLen) < int(self.depth) and self.fillZeros == 1:
+            for i in range(int(self.depth) - len(self.hexLen)):
+                    self.mifFile.write(str(hex(len(self.hexLen) + i)).replace('0x','') +
+                                   '\t:\t' + '00' + ';\n')
+                    
         self.mifFile.write('END;')
 
 
