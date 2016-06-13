@@ -13,7 +13,7 @@ class HexUI(Frame):
         master.title('Hex Parameters')
         self.pack()
 
-        self.parameters = ['depth','width','address_radix','data_radix']
+        self.parameters = ['depth','width','address_radix','data_radix', 0]
 
         self.fileIO = FileIO()
 
@@ -53,6 +53,13 @@ class HexUI(Frame):
         self.datRadEntry.pack(side = 'left')
         datRadFrame.pack()
 
+        zeroFillFrame = Frame(self)
+        zeroFillValue = IntVar()
+        self.zeroFillCB = Checkbutton(zeroFillFrame, text='Fill/pad extra zeros?', variable=zeroFillValue, \
+                                 onvalue = 1, offvalue = 0)
+        self.zeroFillCB.pack(side = 'left')
+        zeroFillFrame.pack()
+
         setParamButton = Button(self, text = 'Set Parameters', command = self.getFieldEntries)
         setParamButton.pack()
 
@@ -62,6 +69,7 @@ class HexUI(Frame):
             self.parameters[1] = int(self.widthEntry.get())
             self.parameters[2] = self.addRadEntry.get()
             self.parameters[3] = self.datRadEntry.get()
+            self.parameters[4] = self.zeroFillCB.get()
             self.quit()
         except:
             self.fileIO.errorPopup('Depth and Width should be integers!')
