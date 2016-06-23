@@ -77,9 +77,9 @@ class ConversionUI(Frame):
             if self.fromFileType == '.hex' and self.toFileType == '.mif':
                 hexClass = HEXClass(self.fromFile, self.toFile)
                 try:
-                    self.hexParams = self.hexApp.getParameters()
                     hexClass.hexFileSettings(depth=self.hexParams[0], width=self.hexParams[1],
-                                             address_radix=self.hexParams[2], data_radix=self.hexParams[3])
+                                             address_radix=self.hexParams[2], data_radix=self.hexParams[3],
+                                             fillZeros=self.hexParams[4])
                     hexClass.convertHEXtoMIF()
                     self.fileIO.closeOpened()
                     self.fileIO.closeSaved()
