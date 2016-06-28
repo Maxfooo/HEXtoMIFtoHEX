@@ -7,6 +7,7 @@ from tkinter import *
 from FileIO import *
 from HEXClass import *
 from HexUI import *
+from Tools import RadixConversionUI, ADCCodeVoltUI
 
 class ConversionUI(Frame):
 
@@ -22,6 +23,8 @@ class ConversionUI(Frame):
 
         self.fromFileType = '.hex'
         self.toFileType = '.mif'
+
+        self.menuBar()
 
         self.mainFrame()
 
@@ -55,6 +58,7 @@ class ConversionUI(Frame):
         logFrame.pack()
 
         self.fromListbox.bind('<<ListboxSelect>>', self.updateToListbox)
+
 
     def getFromFile(self):
         self.fileIO.openFile(exten = self.fromFileType, ftypes=[('{}'.format(self.fromFileType), '.*')],
@@ -122,4 +126,40 @@ class ConversionUI(Frame):
          sel = self.toListbox.curselection()
          self.toFileType = self.toListbox.get(sel)
          self.logText.set('{} selected to save to'.format(self.toFileType))
+
+    def menuBar(self):
+        self.menubar = Menu(self)
+
+        filemenu = Menu(self.menubar, tearoff=0)
+        filemenu.add_command(label="Exit", command=self.quit)
+        self.menubar.add_cascade(label="File", menu=filemenu)
+
+        toolsmenu = Menu(self.menubar, tearoff=0)
+        toolsmenu.add_command(label="Radix Conversion", command=self.radixConversion)
+        toolsmenu.add_separator()
+        toolsmenu.add_command(label="ADC Code/Volt Convert", command=self.adcCodeVolt)
+        self.menubar.add_cascade(label="Tools", menu=toolsmenu)
+
+        helpmenu = Menu(self.menubar, tearoff=0)
+        helpmenu.add_command(label="How To Use", command=self.howToUse)
+        helpmenu.add_command(label="About", command=self.aboutProg)
+        self.menubar.add_cascade(label="Help", menu=helpmenu)
+
+        self.master.config(menu=self.menubar)
+
+    def radixConversion(self):
+        root = Toplevel()
+        subapp = RadixConversionUI(master=root)
+        subapp.mainloop()
+
+    def adcCodeVolt(self):
+        root = Toplevel()
+        subapp = ADCCodeVoltUI(master=root)
+        subapp.mainloop()
+
+    def aboutProg(self):
+        pass
+
+    def howToUse(self):
+        pass
 
